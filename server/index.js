@@ -38,8 +38,18 @@ io.on("connection", (socket) => {
       socket.emit("init", messages);
     });
 
+  socket.on('joining msg', (username) => {
+    const name = username;
+    // socket.broadcast.emit('cm', `---${name} joined the chat---`);
+    // socket.emit('test', 'testing')
+    io.emit('cm', `${name} has joined the Chat`)
+  });
+
+  
+
   // Listen to connected users for a new message.
   socket.on("message", (msg) => {
+    const name = msg.name
     // Create a message with the content and the name of the user.
     const message = new Message({
       content: msg.content,

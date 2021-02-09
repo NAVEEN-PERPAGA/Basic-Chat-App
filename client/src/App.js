@@ -16,6 +16,7 @@ class App extends React.Component {
       chat: [],
       content: '',
       name: '',
+      chat_message: '',
     };
   }
 
@@ -32,11 +33,22 @@ class App extends React.Component {
 
     // Update the chat if a new message is broadcasted.
     this.socket.on('push', (msg) => {
-      console.log('push')
       this.setState((state) => ({
         chat: [...state.chat, msg],
       }), this.scrollToBottom);
     });
+    
+    this.socket.on('cm', (msg) => {
+      this.setState((state) => ({
+        chat: [...state.chat, {
+          chat_message: msg
+        }],
+      }))
+    })
+
+    // this.socket.on('cm', (msg) => {
+    //   this.setState({chat_message: msg})
+    // })
   }
 
   // Save the message the user is typing in the input field.
@@ -82,9 +94,11 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.chat)
+    console.log(this.state.chat.chat_message, 'hi')
+    // console.log(this.state.chat_message)
     return (
       <div className="App">
+      
         <Paper id="chat" elevation={3}>
           {this.state.chat.map((el, index) => {
             return (
@@ -95,10 +109,24 @@ class App extends React.Component {
                 <Typography variant="body1" className="content">
                   {el.content}
                 </Typography>
+                <Typography>
+                  {el.chat_message ? el.chat_message : ''}
+                </Typography>
               </div>
             );
           })}
         </Paper>
+        {/* <Paper id="chat msg">
+          {
+            this.state.chat_message.map((msg) => {
+              return (
+                <div>
+                  {msg}
+                </div>
+              )
+            })
+          }
+        </Paper> */}
         <BottomBar
           content={this.state.content}
           handleContent={this.handleContent.bind(this)}
