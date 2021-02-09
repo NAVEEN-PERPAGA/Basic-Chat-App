@@ -1,114 +1,40 @@
-import React from 'react';
-// import config from './config';
-import io from 'socket.io-client';
-
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-
+import React from 'react'
 import BottomBar from './BottomBar';
-import './App.css';
+import Chat from './Chat'
 
-class App extends React.Component {
+
+export default class App extends React.Component {
+
   constructor(props) {
     super(props);
-
     this.state = {
-      chat: [],
-      content: '',
-      name: '',
-    };
+      showResults: false
+    }
   }
 
-  componentDidMount() {
-    this.socket = io();
-
-    // Load the last 10 messages in the window.
-    this.socket.on('init', (msg) => {
-      let msgReversed = msg.reverse();
-      this.setState((state) => ({
-        chat: [...state.chat, ...msgReversed],
-      }), this.scrollToBottom);
-    });
-
-    // Update the chat if a new message is broadcasted.
-    this.socket.on('push', (msg) => {
-      console.log('push')
-      this.setState((state) => ({
-        chat: [...state.chat, msg],
-      }), this.scrollToBottom);
-    });
-  }
-
-  // Save the message the user is typing in the input field.
-  handleContent(event) {
-    this.setState({
-      content: event.target.value,
-    });
-  }
-
-  //
-  handleName(event) {
-    this.setState({
-      name: event.target.value,
-    });
-  }
-
-  handleSubmit(event) {
-    // Prevent the form to reload the current page.
-    event.preventDefault();
-
-    // Send the new message to the server.
-    this.socket.emit('message', {
-      name: this.state.name,
-      content: this.state.content,
-    });
-
-    this.setState((state) => {
-      // Update the chat with the user's message and remove the current message.
-      return {
-        chat: [...state.chat, {
-          name: state.name,
-          content: state.content,
-        }],
-        content: '',
-      };
-    }, this.scrollToBottom);
-  }
-
-  // Always make sure the window is scrolled down to the last message.
-  scrollToBottom() {
-    const chat = document.getElementById('chat');
-    chat.scrollTop = chat.scrollHeight;
-  }
+chatBtn() {
+  this.setState({ showResults: true})
+}
 
   render() {
-    console.log(this.state.chat)
     return (
-      <div className="App">
-        <Paper id="chat" elevation={3}>
-          {this.state.chat.map((el, index) => {
-            return (
-              <div key={index}>
-                <Typography variant="caption" className="name">
-                  {el.name}
-                </Typography>
-                <Typography variant="body1" className="content">
-                  {el.content}
-                </Typography>
-              </div>
-            );
-          })}
-        </Paper>
-        <BottomBar
-          content={this.state.content}
-          handleContent={this.handleContent.bind(this)}
-          handleName={this.handleName.bind(this)}
-          handleSubmit={this.handleSubmit.bind(this)}
-          name={this.state.name}
-        />
+      <div>
+        <div className="row">
+          <div className="col-md-4"> <Chat /></div>
+          <div className="col-md-6"> 
+            <input
+              type="submit"
+              value="OpenChat"
+              onClick={this.chatBtn.bind(this)}
+            />
+            {this.state.showResults ? (
+              <Chat />
+            ) : null}
+          </div>
+          </div>
+          <div>
+        </div>
       </div>
-    );
+    )
   }
-};
-
-export default App;
+}

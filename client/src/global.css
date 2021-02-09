@@ -1,0 +1,34 @@
+*{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+.appbar{
+top: 80vh;
+position: fixed;
+}
+
+.main{
+    height: 500px;
+    width: 300px;
+    border-radius: 2px solid black;
+    overflow-y: scroll;
+}
+
+.chat{
+    height: 80vh;    
+}
+.main-div{
+    width: 20vw;
+}
+/* chat window  */
+.name{
+    color: red;
+    float: left;
+   
+    
+}
+
+/* footer css  */
+.inputPlaceholder [type="text"]{
+    font-size: 0.8rem !important;
+}

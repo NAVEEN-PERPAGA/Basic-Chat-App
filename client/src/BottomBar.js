@@ -7,11 +7,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import ChatIcon from '@material-ui/icons/Chat';
 import FaceIcon from '@material-ui/icons/Face';
-
+import './global.css'
 const useStyles = makeStyles(theme => ({
   appBar: {
     bottom: 0,
     top: 'auto',
+   
   },
   inputContainer: {
     backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -21,10 +22,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: theme.shape.borderRadius,
     marginLeft: theme.spacing(1),
     position: 'relative',
-    width: '100%',
+    
   },
   icon: {
-    width: theme.spacing(7),
+    width: theme.spacing(5),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -35,9 +36,11 @@ const useStyles = makeStyles(theme => ({
   inputRoot: {
     color: 'inherit',
   },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    width: '100%',
+  nameInput: {
+    padding: theme.spacing(1, 1, 1, 5),    
+  },
+  chatInput: {
+    padding: theme.spacing(1, 1, 1, 5),
   },
 }));
 
@@ -45,19 +48,19 @@ export default function BottomBar(props) {
   const classes = useStyles();
 
   return (
-    <AppBar position="fixed" className={classes.appBar}>
+    <div className="bg-dark appbar">
       <Toolbar>
-        <div className={classes.inputContainer} style={{maxWidth: '200px'}}>
+        <div className={classes.inputContainer} style={{maxWidth: '70px'}}>
           <div className={classes.icon}>
             <FaceIcon />
           </div>
-          <InputBase
+          <InputBase className="inputPlaceholder"
             onChange={props.handleName}
             value={props.name}
             placeholder="Name"
             classes={{
               root: classes.inputRoot,
-              input: classes.inputInput,
+              input: classes.nameInput,
             }}
             inputProps={{ 'aria-label': 'name' }}
           />
@@ -67,19 +70,20 @@ export default function BottomBar(props) {
             <div className={classes.icon}>
               <ChatIcon />
             </div>
-            <InputBase
+            <InputBase className="inputPlaceholder"
               onChange={props.handleContent}
               value={props.content}
               placeholder="Type your message..."
               classes={{
                 root: classes.inputRoot,
-                input: classes.inputInput,
+                input: classes.chatInput,
               }}
               inputProps={{ 'aria-label': 'content' }}
             />
           </form>
         </div>
       </Toolbar>
-    </AppBar>
+  
+    </div>
   );
 }
