@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const multer= require('multer')
 const http = require("http").Server(app);
 const path = require("path");
 const io = require("socket.io")(http);
@@ -54,6 +55,28 @@ io.on("connection", (socket) => {
     // Notify all other users about a new message.
     socket.broadcast.emit("push", msg);
   });
+});
+
+const storage = multer.diskStorage({
+  destination:(req,file,next)=>{
+      next(null,'uploads')
+  },
+  filename:(req,file,next) =>{
+      console.log(file)
+      const {originalname}=file;
+      next(null,originalname);
+  }
+})
+
+const upload=multer({storage})
+
+app.get('/',(req,res) =>{
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/',upload.single('file-to-upload'),(req,res) =>{
+  console.log("file uploaded")
+  res.redirect('/');
 });
 
 http.listen(port, () => {

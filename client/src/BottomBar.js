@@ -79,6 +79,11 @@ export default function BottomBar(props) {
             />
           </form>
         </div>
+          {/* start */}
+          <form onSubmit={props.handleSubmit}>
+            <button>Click Me</button>
+          </form>
+          {/* end */}
       </Toolbar>
     </AppBar>
   );
