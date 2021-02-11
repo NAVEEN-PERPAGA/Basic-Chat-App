@@ -1,11 +1,17 @@
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const http = require("http").Server(app);
 const path = require("path");
 const io = require("socket.io")(http);
+const multer = require("multer")
 require("dotenv").config()
 
+dl  = require('delivery'),
+fs  = require('fs');
+
 app.use(express.json());
+app.use(cors())
 
 const port = process.env.PORT || 5000;
 
@@ -25,6 +31,35 @@ connection.once("open", () => {
 });
 
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, './uploads')
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.originalname)
+  }
+})
+
+const upload = multer({storage: storage}).single('image')
+
+// app.get('/', (req, res) => {
+//   res.send('hello world')
+// })
+
+app.post('/image', (req, res) => {
+  upload(req, res, err => {
+      if (err) {
+          res.status(400).send("Something Went Wrong")
+      }
+      res.send(req.file)
+      io.emit('uploaded image', req.file)
+  })
+})
+
+const messageRoutes = require("./Routes")
+app.use('/messages', messageRoutes)
+
 
 io.on("connection", (socket) => {
   // Get the last 10 messages from the database.
@@ -67,5 +102,5 @@ io.on("connection", (socket) => {
 });
 
 http.listen(port, () => {
-  console.log("listening on *:" + port);
+  console.log("listening on Port:" + port);
 });

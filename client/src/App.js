@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import BottomBar from './BottomBar';
 import './App.css';
 
+import female from './female.jpg'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +19,18 @@ class App extends React.Component {
       content: '',
       name: '',
       chat_message: '',
+      uploaded_file: null,
     };
   }
 
   componentDidMount() {
     this.socket = io();
+
+    this.socket.on('uploaded image', (image) => {
+      this.setState({
+        uploaded_file: image
+      })
+    })
 
     // Load the last 10 messages in the window.
     this.socket.on('init', (msg) => {
@@ -94,11 +103,20 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.chat.chat_message, 'hi')
+    // console.log(this.state.chat.chat_message, 'hi')
     // console.log(this.state.chat_message)
+
+    console.log(this.state.uploaded_file)
+    // console.log(typeof female)
     return (
-      <div className="App">
-      
+      <div>
+        <div>
+          <input type="submit"/>
+        </div>
+
+
+        <img src={this.state.uploaded_file}/>
+
         <Paper id="chat" elevation={3}>
           {this.state.chat.map((el, index) => {
             return (
@@ -116,17 +134,6 @@ class App extends React.Component {
             );
           })}
         </Paper>
-        {/* <Paper id="chat msg">
-          {
-            this.state.chat_message.map((msg) => {
-              return (
-                <div>
-                  {msg}
-                </div>
-              )
-            })
-          }
-        </Paper> */}
         <BottomBar
           content={this.state.content}
           handleContent={this.handleContent.bind(this)}
