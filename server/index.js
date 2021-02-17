@@ -43,17 +43,13 @@ var storage = multer.diskStorage({
 
 const upload = multer({storage: storage}).single('image')
 
-// app.get('/', (req, res) => {
-//   res.send('hello world')
-// })
-
 app.post('/image', (req, res) => {
   upload(req, res, err => {
       if (err) {
           res.status(400).send("Something Went Wrong")
       }
-      res.send(req.file)
-      io.emit('uploaded image', req.file)
+      // res.send(req.file)
+      // io.emit('uploaded image', req.file)
   })
 })
 
@@ -73,14 +69,13 @@ io.on("connection", (socket) => {
       socket.emit("init", messages);
     });
 
-  socket.on('joining msg', (username) => {
-    const name = username;
-    // socket.broadcast.emit('cm', `---${name} joined the chat---`);
-    // socket.emit('test', 'testing')
-    io.emit('cm', `${name} has joined the Chat`)
-  });
+  // socket.on('joining msg', (username) => {
+  //   const name = username;
+  //   // socket.broadcast.emit('cm', `---${name} joined the chat---`);
+  //   // socket.emit('test', 'testing')
+  //   io.emit('cm', `${name} has joined the Chat`)
+  // });
 
-  
 
   // Listen to connected users for a new message.
   socket.on("message", (msg) => {

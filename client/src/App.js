@@ -47,13 +47,13 @@ class App extends React.Component {
       }), this.scrollToBottom);
     });
     
-    this.socket.on('cm', (msg) => {
-      this.setState((state) => ({
-        chat: [...state.chat, {
-          chat_message: msg
-        }],
-      }))
-    })
+    // this.socket.on('cm', (msg) => {
+    //   this.setState((state) => ({
+    //     chat: [...state.chat, {
+    //       chat_message: msg
+    //     }],
+    //   }))
+    // })
 
     // this.socket.on('cm', (msg) => {
     //   this.setState({chat_message: msg})

@@ -89,10 +89,6 @@ export default function BottomBar(props) {
           
         </div>
         <div>
-          {/* <input
-            type="button"
-            onClick = {togglePopup}
-          /> */}
           <button onClick={togglePopup}>
             <AttachFileIcon/>
           </button>
@@ -100,12 +96,7 @@ export default function BottomBar(props) {
             isOpen && <PopUp
               handleClose = {togglePopup}
             >
-                  {/* <b>SELECT A FILE TO UPLOAD</b><br/>
-                  <input
-                    type='file'
-                  /><br/><br/>
-                  <button>UPLOAD</button> */}
-                  <FileUpload/>
+              <FileUpload/>
             </PopUp>
           }
         </div>
