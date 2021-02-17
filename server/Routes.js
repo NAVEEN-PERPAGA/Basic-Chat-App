@@ -1,17 +1,15 @@
 let messages = require('./Message')
 const router = require('express').Router()
-
 const fs = require('fs')
 
+
 router.get('/', (req, res) => {
-    messages.aggregate([{$group: {name: "name", content: "content"}}])
+    messages.find().select('name content -_id')
     .then(msgs => {
-        // const message = JSON.parse(msgs)
+        fs.appendFile('myNewFile.txt', msgs, (err) => {
+            if (err) console.log(err);
+        })
         console.log(msgs)
-        // fs.appendFile('myNewFile.txt', msgs, (err) => {
-        //     if (err) console.log(err);
-        //     console.log()
-        // })
         res.send('File Created')
     })
 })

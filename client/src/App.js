@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import BottomBar from './BottomBar';
 import './App.css';
 
-import female from './female.jpg'
+// import female from './female.jpg'
 
 class App extends React.Component {
   constructor(props) {
@@ -103,19 +103,19 @@ class App extends React.Component {
   }
 
   render() {
+
     // console.log(this.state.chat.chat_message, 'hi')
     // console.log(this.state.chat_message)
-
-    console.log(this.state.uploaded_file)
+    // console.log(this.state.uploaded_file)
     // console.log(typeof female)
+
     return (
       <div>
-        <div>
+
+        {/* <div>
           <input type="submit"/>
-        </div>
-
-
-        <img src={this.state.uploaded_file}/>
+        </div> */}
+        {/* <img src={this.state.uploaded_file}/> */}
 
         <Paper id="chat" elevation={3}>
           {this.state.chat.map((el, index) => {
