@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {PopUp} from './popup'
-import {FileUpload} from './fileUpload'
+import FileUpload from './fileUpload'
+import {FileUploadFunction} from './fileuploadFunction'
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -96,7 +97,8 @@ export default function BottomBar(props) {
             isOpen && <PopUp
               handleClose = {togglePopup}
             >
-              <FileUpload/>
+              {/* <FileUpload/> */}
+              <FileUploadFunction/>
             </PopUp>
           }
         </div>

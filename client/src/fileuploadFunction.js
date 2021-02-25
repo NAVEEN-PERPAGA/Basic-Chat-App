@@ -1,29 +1,19 @@
-import React, {Component, useState} from 'react'
+import React, { useState} from 'react'
 import axios from 'axios'
 
-export default class FileUpload extends Component {
+export const FileUploadFunction = () => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            imageBase64 : null,
-            selectedFile: null
-        }
-    }
+    const [imageBase64, setBase64] = useState(null)
+    const [selectedFile, setSelectedFile] = useState(null)
 
-    // const [imageBase64, setBase64] = useState(null)
-    // const [selectedFile, setSelectedFile] = useState(null)
-
-    onFileChange = (e) => {
-        this.getBase64(e.target.files[0], (result) => {
-            this.setState({imageBase64: result})
-            console.log(result)
+    const onFileChange = (e) => {
+        getBase64(e.target.files[0], (result) => {
+            setBase64(result)
         })
-        console.log(e.target.files[0])
-        this.setState({selectedFile: e.target.files[0]})
+        setSelectedFile(e.target.files[0])
     }
 
-    getBase64 = (file, cb) => {
+    const getBase64 = (file, cb) => {
         const reader = new FileReader()
         reader.readAsDataURL(file)
         // reader.readAsArrayBuffer(file)
@@ -35,14 +25,14 @@ export default class FileUpload extends Component {
         }
       }
 
-    onFileUpload = (e) => {
+    const onFileUpload = (e) => {
         // e.preventDefault() 
-        console.log(typeof this.state.selectedFile)  
+        console.log(selectedFile)  
 
-        const data = {file: this.state.selectedFile}
+        const data = {file: imageBase64}
 
         const formData = new FormData()
-        formData.append('image', "Hello")
+        formData.append('selected_image', imageBase64)
 
         // axios({
         //     method: 'post',
@@ -52,7 +42,7 @@ export default class FileUpload extends Component {
         //     },
         //     data: formData
         // })
-        axios.post('http://localhost:5000/image/', data)
+        axios.post('http://localhost:5000/image/', formData)
             .then(() => alert('Image Posted Successfully '))
             .catch(err => console.log(err))
 
@@ -61,8 +51,6 @@ export default class FileUpload extends Component {
             console.log(key, value);
            }
     }
-
-    render()  {
         
         return (
         <>
@@ -70,17 +58,16 @@ export default class FileUpload extends Component {
                 <input
                     type="file"
                     name="image"
-                    onChange={this.onFileChange}
+                    onChange={onFileChange}
                 />
-                {/* <button onClick={this.onFileUpload}>
+                {/* <button onClick={onFileUpload}>
                     Upload
                 </button> */}
 
-                <form onSubmit={this.onFileUpload}>
+                <form onSubmit={onFileUpload} encType="multipart/form-data">
                     <input type="submit" value="POST" className="btn btn-primary" />
                 </form>
             </div>
         </>
     )
-            }
 }

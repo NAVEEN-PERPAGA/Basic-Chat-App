@@ -20,6 +20,7 @@ class App extends React.Component {
       name: '',
       chat_message: '',
       uploaded_file: null,
+      imageBase64: '',
     };
   }
 
@@ -27,6 +28,13 @@ class App extends React.Component {
     this.socket = io();
 
     this.socket.on('uploaded image', (image) => {
+      
+      // this.getBase64(image, (result) => {
+      //   this.setState({
+      //     imageBase64: result
+      //   })
+      // })
+
       this.setState({
         uploaded_file: image
       })
@@ -74,6 +82,17 @@ class App extends React.Component {
     });
   }
 
+  getBase64 = (file, cb) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function() {
+        cb(reader.result)
+    }
+    reader.onerror = function(error) {
+        console.log('Error: ', error)
+    }
+  }
+
   handleSubmit(event) {
     // Prevent the form to reload the current page.
     event.preventDefault();
@@ -108,6 +127,7 @@ class App extends React.Component {
     // console.log(this.state.chat_message)
     // console.log(this.state.uploaded_file)
     // console.log(typeof female)
+    // console.log(this.state.imageBase64)
 
     return (
       <div>
@@ -127,6 +147,8 @@ class App extends React.Component {
                 <Typography variant="body1" className="content">
                   {el.content}
                 </Typography>
+                {el.image ? <embed src={el.image} style={{height: "200px", width: "200px"}}/> : ''}
+                {/* {el.image ? <embed src={el.image} style={{height: "200px", width: "200px"}}/> : ''} */}
                 <Typography>
                   {el.chat_message ? el.chat_message : ''}
                 </Typography>

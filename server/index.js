@@ -5,17 +5,21 @@ const http = require("http").Server(app);
 const path = require("path");
 const io = require("socket.io")(http);
 const multer = require("multer")
+const fs = require('fs')
+const bodyParser = require('body-parser')
 require("dotenv").config()
 
-dl  = require('delivery'),
-fs  = require('fs');
+// dl  = require('delivery'),
 
 app.use(express.json());
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 const port = process.env.PORT || 5000;
 
-const Message = require("./Message");
+const Msg = require("./Message");
+const Image = require("./imageModel")
 var mongoose = require("mongoose");
 
 const uri = process.env.ATLAS_URI;
@@ -41,16 +45,39 @@ var storage = multer.diskStorage({
   }
 })
 
-const upload = multer({storage: storage}).single('image')
+const upload = multer({
+  storage: storage,
+  limits: {fileSize: 25 * 1024 * 1024}
+})
 
-app.post('/image', (req, res) => {
-  upload(req, res, err => {
-      if (err) {
-          res.status(400).send("Something Went Wrong")
-      }
-      // res.send(req.file)
-      // io.emit('uploaded image', req.file)
+app.post('/image', upload.single('selected_image'), (req, res) => {
+  // const file = req.file
+  const file = req.body.selected_image
+  // const base64 = req.body.selected_image
+  // console.log(file)
+
+  const new_message = new Msg({
+  //   image: {
+  //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.body.file.filename)),
+  //     contentType: 'image/png'
+  // }
+    image: file
   })
+  new_message.save()
+
+  // const newImage = new Image()
+  // newImage.image.data = fs.readFileSync(req.body.file.path)
+  // newImage.image.contentType = 'image/png'
+  // newImage.save()
+  
+  // upload(req, res, err => {
+  //     if (err) {
+  //         res.status(400).send("Something Went Wrong")
+  //     }
+  //     res.send(req.file)
+  //     // console.log(req.file)
+  //     io.emit('uploaded image', req.file)
+  // })
 })
 
 const messageRoutes = require("./Routes")
@@ -59,7 +86,7 @@ app.use('/messages', messageRoutes)
 
 io.on("connection", (socket) => {
   // Get the last 10 messages from the database.
-  Message.find()
+  Msg.find()
     .sort({ createdAt: -1 })
     .limit(10)
     .exec((err, messages) => {
@@ -81,7 +108,7 @@ io.on("connection", (socket) => {
   socket.on("message", (msg) => {
     const name = msg.name
     // Create a message with the content and the name of the user.
-    const message = new Message({
+    const message = new Msg({
       content: msg.content,
       name: msg.name,
     });
