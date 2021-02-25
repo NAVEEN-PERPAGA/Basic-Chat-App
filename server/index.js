@@ -3,7 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const path = require("path");
 const io = require("socket.io")(http);
-require("dotenv").config()
+require("dotenv").config();
 
 app.use(express.json());
 
@@ -21,7 +21,7 @@ mongoose.connect(uri, {
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDb Connection successful on prokart app");
+  console.log("MongoDb Connection successful...");
 });
 
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
   // Get the last 10 messages from the database.
   Message.find()
     .sort({ createdAt: -1 })
-    .limit(10)
+    .limit(50)
     .exec((err, messages) => {
       if (err) return console.error(err);
 
@@ -44,6 +44,7 @@ io.on("connection", (socket) => {
     const message = new Message({
       content: msg.content,
       name: msg.name,
+      type: msg.type,
     });
 
     // Save the message to the database.

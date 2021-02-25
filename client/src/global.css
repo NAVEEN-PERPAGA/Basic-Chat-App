@@ -3,16 +3,33 @@
     box-sizing: border-box;
 }
 .appbar{
-top: 80vh;
+top: 85vh;
 position: fixed;
 }
 
 .main{
-    height: 500px;
-    width: 300px;
-    border-radius: 2px solid black;
+   height: 80vh;
     overflow-y: scroll;
+    border-right: none;
 }
+
+.main::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+
+  /* Handle */
+  .main::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .main::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+
 
 .chat{
     height: 80vh;    
@@ -23,10 +40,15 @@ position: fixed;
 /* chat window  */
 .name{
     color: red;
-    float: left;
-   
-    
+    float: left;      
 }
+.content{
+  color: rgb(83, 79, 79);
+    border-radius: 20px;
+     max-width: 205px;
+    line-height: 130%;
+}
+
 
 /* footer css  */
 .inputPlaceholder [type="text"]{
