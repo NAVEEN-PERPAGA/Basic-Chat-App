@@ -8,7 +8,12 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
+<<<<<<< HEAD
     "bootstrap": "^4.6.0",
+=======
+    "axios": "^0.21.1",
+    "delivery": "0.0.6",
+>>>>>>> 954a8b39cb729815d64fbdefc716580ac1854e55
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",

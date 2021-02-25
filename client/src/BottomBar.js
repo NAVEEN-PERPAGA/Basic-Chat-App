@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {PopUp} from './popup'
+import FileUpload from './fileUpload'
+import {FileUploadFunction} from './fileuploadFunction'
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,7 +10,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import ChatIcon from '@material-ui/icons/Chat';
 import FaceIcon from '@material-ui/icons/Face';
-import './global.css'
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+
 const useStyles = makeStyles(theme => ({
   appBar: {
     bottom: 0,
@@ -45,6 +49,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BottomBar(props) {
+  const [isOpen, setIsOpen] = useState(false)
+  const togglePopup = () => {
+    setIsOpen(!isOpen)
+  }
+
   const classes = useStyles();
 
   return (
@@ -81,6 +90,20 @@ export default function BottomBar(props) {
               inputProps={{ 'aria-label': 'content' }}
             />
           </form>
+          
+        </div>
+        <div>
+          <button onClick={togglePopup}>
+            <AttachFileIcon/>
+          </button>
+          {
+            isOpen && <PopUp
+              handleClose = {togglePopup}
+            >
+              {/* <FileUpload/> */}
+              <FileUploadFunction/>
+            </PopUp>
+          }
         </div>
       </Toolbar>
   
