@@ -46,15 +46,19 @@ var storage = multer.diskStorage({
 })
 
 const upload = multer({
-  storage: storage,
-  limits: {fileSize: 25 * 1024 * 1024}
+  storage: storage
+  // limits: {fileSize: 25 * 1024 * 1024}
 })
 
-app.post('/image', upload.single('selected_image'), (req, res) => {
-  // const file = req.file
-  const file = req.body.selected_image
+app.post('/image', upload.single('image'), (req, res) => {
+  const file = req.body.image
+  // const file = req.body.file
+  // const file = req.body.selected_image
   // const base64 = req.body.selected_image
-  // console.log(file)
+  // const new_image = new Msg()
+  // new_image.meta_data = req.file
+  // new_image.save()
+  console.log(file)
 
   const new_message = new Msg({
   //   image: {

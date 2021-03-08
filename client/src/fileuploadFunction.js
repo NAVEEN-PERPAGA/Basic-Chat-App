@@ -5,12 +5,16 @@ export const FileUploadFunction = () => {
 
     const [imageBase64, setBase64] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null)
+    const [imageurl, setImageUrl] = useState(null)
 
     const onFileChange = (e) => {
         getBase64(e.target.files[0], (result) => {
             setBase64(result)
         })
         setSelectedFile(e.target.files[0])
+        console.log(e.target.files[0])
+        const url = URL.createObjectURL(e.target.files[0])
+        setImageUrl(url)
     }
 
     const getBase64 = (file, cb) => {
@@ -27,12 +31,12 @@ export const FileUploadFunction = () => {
 
     const onFileUpload = (e) => {
         // e.preventDefault() 
+        // const data = {file: imageBase64}
+
         console.log(selectedFile)  
 
-        const data = {file: imageBase64}
-
         const formData = new FormData()
-        formData.append('selected_image', imageBase64)
+        formData.append('image', imageurl)
 
         // axios({
         //     method: 'post',
@@ -47,14 +51,15 @@ export const FileUploadFunction = () => {
             .catch(err => console.log(err))
 
         // console.log(formData)
-        for (var [key, value] of formData.entries()) { 
-            console.log(key, value);
-           }
+        // for (var [key, value] of formData.entries()) { 
+        //     console.log(key, value);
+        //    }
     }
         
         return (
         <>
             <div>
+            {imageurl}
                 <input
                     type="file"
                     name="image"
@@ -67,6 +72,7 @@ export const FileUploadFunction = () => {
                 <form onSubmit={onFileUpload} encType="multipart/form-data">
                     <input type="submit" value="POST" className="btn btn-primary" />
                 </form>
+                <img src={imageurl} style={{height: "200px", width: "200px"}}/>
             </div>
         </>
     )

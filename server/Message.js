@@ -5,9 +5,8 @@ const messageSchema = new mongoose.Schema({
   name: String,
   image : {
     type: String
-    // data: Buffer,
-    // contentType: String
-  }
+  },
+  meta_data : {}
 }, {
   timestamps: true,
 });

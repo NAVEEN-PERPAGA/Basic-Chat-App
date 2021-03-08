@@ -2,6 +2,9 @@ import React from 'react'
 import BottomBar from './BottomBar';
 import Chat from './Chat'
 
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import apple from "./apple.png"
 
 export default class App extends React.Component {
 
@@ -118,6 +121,7 @@ class App extends React.Component {
   }
 
   render() {
+    // var apple = require("./apple.png")
 
     // console.log(this.state.chat.chat_message, 'hi')
     // console.log(this.state.chat_message)
@@ -143,7 +147,21 @@ class App extends React.Component {
                 <Typography variant="body1" className="content">
                   {el.content}
                 </Typography>
-                {el.image ? <embed src={el.image} style={{height: "200px", width: "200px"}}/> : ''}
+                {/* {el.image ? <img src={} style={{height: "200px", width: "200px"}} /> : ''} */}
+                {/* {<img src="https://myawsbucketnavu.s3.ap-south-1.amazonaws.com/Naveen+Perpaga_283635.pdf" style={{height: "200px", width: "200px"}}/>} */}
+
+                {/* {<video
+                  src="https://myawsbucketnavu.s3.ap-south-1.amazonaws.com/video.mp4"
+                  type="video/mp4"
+                  style={{width: "400px", height: "400px"}}
+                />} */}
+
+                
+                {<video style={{width: "320px", height: "240px"}} controls>
+                  <source src="https://myawsbucketnavu.s3.ap-south-1.amazonaws.com/video.mp4" type="video/mp4"/>
+                </video>}
+                
+
                 {/* {el.image ? <embed src={el.image} style={{height: "200px", width: "200px"}}/> : ''} */}
                 <Typography>
                   {el.chat_message ? el.chat_message : ''}
